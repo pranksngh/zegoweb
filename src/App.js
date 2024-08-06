@@ -9,6 +9,7 @@ function App() {
   const videostreamID = "90001";
   const [zegoEngine, setZegoEngine] = useState(null);
   const [isMuted, setIsMuted] = useState(false);
+  const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [localStream, setLocalStream] = useState(null);
 
   useEffect(() => {
@@ -72,24 +73,41 @@ function App() {
     }
   };
 
+  const toggleCamera = () => {
+    if (localStream) {
+      if (isCameraEnabled) {
+        localStream.getVideoTracks()[0].enabled = false; // Disable camera
+        setIsCameraEnabled(false);
+      } else {
+        localStream.getVideoTracks()[0].enabled = true; // Enable camera
+        setIsCameraEnabled(true);
+      }
+    }
+  };
+
+  const leaveRoom = () => {
+    if (zegoEngine) {
+      zegoEngine.stopPublishingStream(videostreamID);
+      zegoEngine.logoutRoom(roomID);
+      zegoEngine.destroyEngine();
+      console.log('Left room and stopped publishing');
+    }
+  };
+
   return (
     <div className="App">
-      <button onClick={startClass}>
-        Start Class
-      </button>
       <button onClick={toggleMute}>
         {isMuted ? 'Unmute' : 'Mute'}
+      </button>
+      <button onClick={toggleCamera}>
+        {isCameraEnabled ? 'Disable Camera' : 'Enable Camera'}
+      </button>
+      <button onClick={leaveRoom}>
+        Leave Room
       </button>
       <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
     </div>
   );
-
-  async function startClass() {
-    if (!zegoEngine) {
-      alert("ZegoExpressEngine is not initialized.");
-      return;
-    }
-  }
 }
 
 export default App;
