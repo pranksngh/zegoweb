@@ -45,7 +45,7 @@ function App() {
 
   const startClass = async () => {
     if (!zegoEngine) {
-      console.error("ZegoExpressEngine is not initialized.");
+      alert("ZegoExpressEngine is not initialized.");
       return;
     }
 
@@ -73,13 +73,13 @@ function App() {
 
       zegoEngine.on('publisherStateUpdate', (result) => {
         if (result.state === 'PUBLISHING') {
-          console.log('Publishing started');
+          alert('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
-          console.error('Publishing failed');
+          alert('Publishing failed');
         }
       });
     } catch (error) {
-      console.error("Error starting the live stream: ", error);
+      alert("Error starting the live stream: ", error);
     }
   };
 
