@@ -6,8 +6,8 @@ function App() {
   const serverSecret = "e7c4627c6fdb1a356ea1cb1e45a60c6b"; // Replace with your Server Secret
 
   const userName = "Prashant Singh";
-  const roomID = "9818028418";
-  const videostreamID="9711706966";
+  const roomID = "9000";
+  const videostreamID="90001";
   const [zegoEngine, setZegoEngine] = useState(null);
 
   useEffect(() => {
