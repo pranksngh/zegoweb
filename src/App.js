@@ -34,13 +34,16 @@ function App() {
     try {
       const userID = "prashant_01";
       const token = "04AAAAAGay/WUAEGw5N3BtazA0d3NocmVodGEAsAtfjhyAtQrXy7fdlKwnWfzuqHzmddJy37eMQIhXrG9FQaR0zj+3TKytAeq5JAW8GpQYsjPJ2YBiW18lmJwctquYJg+TyunG/eDRGexAuqYHahsCuBUS5fWCqOhcHE6OLzYj6V4fmoCcRsv6FDa/VKz1olJlpa7HtieVWMYppmOUGEE1rdGIoQTyUBQg02B81CX5jxIHDm8wNSXRT1Vdrl/TfyhDuVTrHvw2QbCVDyKj";
-      zegoEngine.loginRoom(roomID, token,  {userID, userName} );
+      zegoEngine.loginRoom(roomID, token,  {userID, userName} , {userUpdate: true});
 
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      const videoElement = document.getElementById('hostVideo');
-      videoElement.srcObject = stream;
+      const localStream = await zegoEngine.createStream({
+        camera: {
+          video: true,
+          audio: true,
+        }
+      });
 
-      zegoEngine.startPublishingStream('prashant706966', stream);
+      zegoEngine.startPublishingStream('prashant706966', localStream);
 
       zegoEngine.on('publisherStateUpdate', (result) => {
         if (result.state === 'PUBLISHING') {
