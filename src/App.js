@@ -8,6 +8,8 @@ function App() {
   const roomID = "9000";
   const videostreamID = "90001";
   const [zegoEngine, setZegoEngine] = useState(null);
+  const [isMuted, setIsMuted] = useState(false);
+  const [localStream, setLocalStream] = useState(null);
 
   useEffect(() => {
     const initZego = async () => {
@@ -16,32 +18,33 @@ function App() {
 
       const result = await zg.checkSystemRequirements();
       if (!result.webRTC) {
-        alert("Browser does not support required WebRTC features.");
+        console.error("Browser does not support required WebRTC features.");
         return;
       }
 
       const userID = "prashant_01";
-      const token = "04AAAAAGazvEMAEG5lN2h2ZjBlb3FzY3NlN3gAsKcR9zNUzPesqpyXMgNjCEBXQg8qeQ6SRNvKUOmb62pMzTyAve2rI7MgQVR89He7YR0E3mWdo9xdDj+gvAJCjKde5v2w7p9o7O4/3JJqzlpn5OwKOjgxgKenZ3UL1Ttl+xAt7oOStiztW7MfZmPKFKHqIIO/i+QWLGuROrB5AM1nJbjoea3rkcOOytTNYrzrVq8zK39wIuKZYw3HpBFDQ3qTkrLaCdqMgXEQmMCnbdud"; // Replace with your token
+      const token = "your_token_here"; // Replace with your token
 
       zg.loginRoom(roomID, token, { userID, userName });
 
-      const localStream = await zg.createStream({
+      const stream = await zg.createStream({
         camera: {
           video: true,
           audio: true,
         }
       });
+      setLocalStream(stream);
 
       const videoElement = document.getElementById('hostVideo');
-      videoElement.srcObject = localStream;
+      videoElement.srcObject = stream;
 
-      zg.startPublishingStream(videostreamID, localStream);
+      zg.startPublishingStream(videostreamID, stream);
 
       zg.on('publisherStateUpdate', (result) => {
         if (result.state === 'PUBLISHING') {
-          alert('Publishing started');
+          console.log('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
-          alert(`Publishing failed with error code: ${result.errorCode}`);
+          console.error(`Publishing failed with error code: ${result.errorCode}`);
         }
       });
     };
@@ -57,10 +60,25 @@ function App() {
     };
   }, []);
 
+  const toggleMute = () => {
+    if (localStream) {
+      if (isMuted) {
+        zegoEngine.muteMicrophone(false); // Unmute
+        setIsMuted(false);
+      } else {
+        zegoEngine.muteMicrophone(true); // Mute
+        setIsMuted(true);
+      }
+    }
+  };
+
   return (
     <div className="App">
       <button onClick={startClass}>
         Start Class
+      </button>
+      <button onClick={toggleMute}>
+        {isMuted ? 'Unmute' : 'Mute'}
       </button>
       <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
     </div>
