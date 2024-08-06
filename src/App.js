@@ -51,7 +51,7 @@ function App() {
 
     try {
       const userID = "prashant_01";
-      const token = "04AAAAAGazpTsAEGswNGIzNmhjeHFxbmJmb2MAsJ6itWI8SUImj7FardegLq73tF9L3bZMZXyS6YChf4OVAZY2FUQUSgDjq5rsSwKO45hWgzVUxzhSLb5kKwmVY8zW+Co8Aj5ANXYW2TA+AX1R9NI/oX9mZsjC/AQXkssRyBPioD1A7/qthUdYyYXcPAsN5JiivsuK0+GMBVaUy0/mHYVTqIUTQJ3nfhhCwejr6WNFfOCK6/n72xECF/gk/lkeuAqC6FLDuNfXJ9Z5H8d3"; // Replace with your token
+      const token = "04AAAAAGazryYAEHhoazI0dXZtbDZ3dTZrOXYAsCWtxfnekilFAS99ghAlDL/McF+gTXrYpZxMuNFFOZfgA/Qw0QfK6kpt4cYlSOuUaJYvczvKnEJY97LTSpwj24Ey51C6J7oIBHQZILcTpUZemn0ppv5VI+fN+nhX5oPff2FK2mLLZeyiDhmQJDjllnqdVUSjWrcLCeH7IRtNGVOx9acVsODsA1FOTB0JhVJ61Esg91+oS79DrdHdpNRssW2eHquxGIA7/2ODplS3ngAj"; // Replace with your token
 
       // Login to the room
       zegoEngine.loginRoom(roomID, token, { userID, userName });
