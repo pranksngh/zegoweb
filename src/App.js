@@ -13,6 +13,8 @@ function App() {
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [localStream, setLocalStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const initZego = async () => {
@@ -26,7 +28,7 @@ function App() {
       }
 
       const userID = "prashant_01";
-      const token = "04AAAAAGazvEMAEG5lN2h2ZjBlb3FzY3NlN3gAsKcR9zNUzPesqpyXMgNjCEBXQg8qeQ6SRNvKUOmb62pMzTyAve2rI7MgQVR89He7YR0E3mWdo9xdDj+gvAJCjKde5v2w7p9o7O4/3JJqzlpn5OwKOjgxgKenZ3UL1Ttl+xAt7oOStiztW7MfZmPKFKHqIIO/i+QWLGuROrB5AM1nJbjoea3rkcOOytTNYrzrVq8zK39wIuKZYw3HpBFDQ3qTkrLaCdqMgXEQmMCnbdud"; // Replace with your token
+      const token = "04AAAAAGazyHsAEHFkMG82bm90ZHR3aGQ5Nm8AsEVYiYSmyzCBv9je0TmRXl3uUM93xE9zCWVjm9A6kxNSac4KE2X8kjod79uEPI2oXR4xsjlvBv87biXEYLCpERyNt/wcXiD4/ghRFlqF8UONz4Ovtuy/a8zi3tpC3Ac3JbgAp39FXCcuCeL5AaHzWfGF94IRXge9+SmZ+FK7tSUapWAEUGjrz5IwLlV0RYwdBLvPL+8XKVmaRGFxMSaqg6DnxePXI1d/oEhBuIsR84XL"; // Replace with your token
 
       zg.loginRoom(roomID, token, { userID, userName });
 
@@ -49,6 +51,16 @@ function App() {
         } else if (result.state === 'NO_PUBLISH') {
           console.error(`Publishing failed with error code: ${result.errorCode}`);
         }
+      });
+
+      // Listen for incoming messages
+      zg.on('IMRecvBroadcastMessage', (roomID, messageList) => {
+        const newMessages = messageList.map(msg => ({
+          userID: msg.fromUser.userID,
+          userName: msg.fromUser.userName,
+          message: msg.message,
+        }));
+        setMessages(prevMessages => [...prevMessages, ...newMessages]);
       });
     };
 
@@ -124,6 +136,17 @@ function App() {
     }
   };
 
+  const sendMessage = () => {
+    if (zegoEngine && message.trim() !== "") {
+      zegoEngine.sendBroadcastMessage(roomID, message).then(() => {
+        setMessages([...messages, { userID: "prashant_01", userName, message }]);
+        setMessage("");
+      }).catch(error => {
+        console.error("Failed to send message", error);
+      });
+    }
+  };
+
   return (
     <div className="App">
       <button onClick={toggleMute}>
@@ -138,6 +161,22 @@ function App() {
       <button onClick={leaveRoom}>
         Leave Room
       </button>
+      <div className="chat-container">
+        <div className="messages">
+          {messages.map((msg, index) => (
+            <div key={index} className="message">
+              <strong>{msg.userName}: </strong>{msg.message}
+            </div>
+          ))}
+        </div>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type a message"
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
       <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
       <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video>
     </div>
