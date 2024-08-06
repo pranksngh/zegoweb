@@ -14,8 +14,9 @@ function App() {
     const checkBrowser = async () => {
       const zg = new ZegoExpressEngine(appID, serverSecret);
       const result = await zg.checkSystemRequirements();
+      setZegoEngine(zg);
       if (result.webRTC) {
-        setZegoEngine(zg);
+        
         console.log("System requirement check result status: " + result.webRTC);
       } else {
         console.error("Browser does not support required WebRTC features.");
@@ -44,10 +45,7 @@ function App() {
   }, [zegoEngine]);
 
   const startClass = async () => {
-    if (!zegoEngine) {
-      alert("ZegoExpressEngine is not initialized.");
-      return;
-    }
+  
 
     try {
       const userID = "prashant_01";
