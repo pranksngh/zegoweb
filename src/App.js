@@ -6,7 +6,8 @@ function App() {
   const serverSecret = "e7c4627c6fdb1a356ea1cb1e45a60c6b"; // Replace with your Server Secret
 
   const userName = "Prashant Singh";
-  const roomID = "706967";
+  const roomID = "prashant01";
+  const videostreamID="prashant9052";
   const [zegoEngine, setZegoEngine] = useState(null);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ function App() {
     // Cleanup on tab/window close
     const cleanup = () => {
       if (zegoEngine) {
-        zegoEngine.stopPublishingStream('prashant706966');
+        zegoEngine.stopPublishingStream(videostreamID);
         zegoEngine.logoutRoom(roomID);
         zegoEngine.destroyEngine();
         console.log('Session ended and engine destroyed');
@@ -68,7 +69,7 @@ function App() {
       videoElement.srcObject = localStream;
 
       // Start publishing the stream to the server
-      zegoEngine.startPublishingStream('prashant706967', localStream);
+      zegoEngine.startPublishingStream(videostreamID, localStream);
 
       zegoEngine.on('publisherStateUpdate', (result) => {
         if (result.state === 'PUBLISHING') {
