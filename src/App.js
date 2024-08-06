@@ -7,7 +7,7 @@ function App() {
 
   const userName = "Prashant Singh";
   const roomID = "9000";
-  const videostreamID="90001";
+  const videostreamID = "90001";
   const [zegoEngine, setZegoEngine] = useState(null);
 
   useEffect(() => {
@@ -75,11 +75,13 @@ function App() {
         if (result.state === 'PUBLISHING') {
           alert('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
-          alert('Publishing failed');
+          alert(`Publishing failed with error code: ${result.errorCode}`);
+          console.error(`Publishing failed with error code: ${result.errorCode}, reason: ${result.extendedData}`);
         }
       });
     } catch (error) {
-      alert("Error starting the live stream: ", error);
+      alert("Error starting the live stream: " + error.message);
+      console.error("Error starting the live stream: ", error);
     }
   };
 
