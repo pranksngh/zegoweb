@@ -5,8 +5,8 @@ function App() {
   const appID = 632416856; // Your App ID
   const serverSecret = "e7c4627c6fdb1a356ea1cb1e45a60c6b"; // Your Server Secret
   const userName = "Prashant Singh";
-  const roomID = "9000";
-  const videostreamID = "90001";
+  const roomID = "9052";
+  const videostreamID = "90002";
   const [zegoEngine, setZegoEngine] = useState(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
@@ -19,12 +19,12 @@ function App() {
 
       const result = await zg.checkSystemRequirements();
       if (!result.webRTC) {
-        console.error("Browser does not support required WebRTC features.");
+        alert("Browser does not support required WebRTC features.");
         return;
       }
 
       const userID = "prashant_01";
-      const token = "your_token_here"; // Replace with your token
+      const token = "04AAAAAGazvEMAEG5lN2h2ZjBlb3FzY3NlN3gAsKcR9zNUzPesqpyXMgNjCEBXQg8qeQ6SRNvKUOmb62pMzTyAve2rI7MgQVR89He7YR0E3mWdo9xdDj+gvAJCjKde5v2w7p9o7O4/3JJqzlpn5OwKOjgxgKenZ3UL1Ttl+xAt7oOStiztW7MfZmPKFKHqIIO/i+QWLGuROrB5AM1nJbjoea3rkcOOytTNYrzrVq8zK39wIuKZYw3HpBFDQ3qTkrLaCdqMgXEQmMCnbdud"; // Replace with your token
 
       zg.loginRoom(roomID, token, { userID, userName });
 
@@ -43,9 +43,9 @@ function App() {
 
       zg.on('publisherStateUpdate', (result) => {
         if (result.state === 'PUBLISHING') {
-          console.log('Publishing started');
+          alert('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
-          console.error(`Publishing failed with error code: ${result.errorCode}`);
+          alert(`Publishing failed with error code: ${result.errorCode}`);
         }
       });
     };
