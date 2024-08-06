@@ -70,10 +70,12 @@ function App() {
       zegoEngine.startPublishingStream(videostreamID, localStream);
 
       zegoEngine.on('publisherStateUpdate', (result) => {
+
+        alert(JSON.stringify(result));
         if (result.state === 'PUBLISHING') {
           alert('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
-          alert(`Publishing failed with error code: ${result.errorCode}`);
+          alert(`Publishing failed with error code: ${result}`);
           console.error(`Publishing failed with error code: ${result.errorCode}, reason: ${result.extendedData}`);
         }
       });
