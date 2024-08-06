@@ -5,12 +5,14 @@ function App() {
   const appID = 632416856; // Your App ID
   const serverSecret = "e7c4627c6fdb1a356ea1cb1e45a60c6b"; // Your Server Secret
   const userName = "Prashant Singh";
-  const roomID = "9052";
-  const videostreamID = "90002";
+  const roomID = "9000";
+  const videostreamID = "90001";
+  const screenStreamID = "90004";
   const [zegoEngine, setZegoEngine] = useState(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [localStream, setLocalStream] = useState(null);
+  const [screenStream, setScreenStream] = useState(null);
 
   useEffect(() => {
     const initZego = async () => {
@@ -19,7 +21,7 @@ function App() {
 
       const result = await zg.checkSystemRequirements();
       if (!result.webRTC) {
-        alert("Browser does not support required WebRTC features.");
+        console.error("Browser does not support required WebRTC features.");
         return;
       }
 
@@ -43,9 +45,9 @@ function App() {
 
       zg.on('publisherStateUpdate', (result) => {
         if (result.state === 'PUBLISHING') {
-          alert('Publishing started');
+          console.log('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
-          alert(`Publishing failed with error code: ${result.errorCode}`);
+          console.error(`Publishing failed with error code: ${result.errorCode}`);
         }
       });
     };
@@ -55,6 +57,9 @@ function App() {
     return () => {
       if (zegoEngine) {
         zegoEngine.stopPublishingStream(videostreamID);
+        if (screenStream) {
+          zegoEngine.stopPublishingStream(screenStreamID);
+        }
         zegoEngine.logoutRoom(roomID);
         zegoEngine.destroyEngine();
       }
@@ -85,9 +90,34 @@ function App() {
     }
   };
 
+  const startScreenShare = async () => {
+    if (zegoEngine) {
+      try {
+        const screenStream = await zegoEngine.createStream({
+          screen: true, // Enable screen sharing
+          video: {
+            quality: 4,
+            frameRate: 15,
+          },
+        });
+        setScreenStream(screenStream);
+
+        const screenVideoElement = document.getElementById('screenVideo');
+        screenVideoElement.srcObject = screenStream;
+
+        zegoEngine.startPublishingStream(screenStreamID, screenStream);
+      } catch (error) {
+        console.error('Error sharing screen:', error);
+      }
+    }
+  };
+
   const leaveRoom = () => {
     if (zegoEngine) {
       zegoEngine.stopPublishingStream(videostreamID);
+      if (screenStream) {
+        zegoEngine.stopPublishingStream(screenStreamID);
+      }
       zegoEngine.logoutRoom(roomID);
       zegoEngine.destroyEngine();
       console.log('Left room and stopped publishing');
@@ -102,10 +132,14 @@ function App() {
       <button onClick={toggleCamera}>
         {isCameraEnabled ? 'Disable Camera' : 'Enable Camera'}
       </button>
+      <button onClick={startScreenShare}>
+        Share Screen
+      </button>
       <button onClick={leaveRoom}>
         Leave Room
       </button>
       <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
+      <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video>
     </div>
   );
 }
