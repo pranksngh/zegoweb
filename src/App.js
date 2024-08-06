@@ -80,7 +80,7 @@ function App() {
         }
       });
     } catch (error) {
-      alert("Error starting the live stream: " + error.message);
+      alert("Error starting the live stream: " + error);
       console.error("Error starting the live stream: ", error);
     }
   };
