@@ -125,7 +125,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    
        <div className="container">
       <div className="screen-share">SCREEN SHARED</div>
       <div className="side-panel">
@@ -150,22 +150,22 @@ function App() {
         <button className="leave-button">Leave Room</button>
       </div>
     </div>
-      {/* <button onClick={toggleMute}>
-        {isMuted ? 'Unmute' : 'Mute'}
-      </button>
-      <button onClick={toggleCamera}>
-        {isCameraEnabled ? 'Disable Camera' : 'Enable Camera'}
-      </button>
-      <button onClick={startScreenShare}>
-        Share Screen
-      </button>
-      <button onClick={leaveRoom}>
-        Leave Room
-      </button>
-      <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
-      <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video> */}
+      //  <button onClick={toggleMute}>
+      //   {isMuted ? 'Unmute' : 'Mute'}
+      // </button>
+      // <button onClick={toggleCamera}>
+      //   {isCameraEnabled ? 'Disable Camera' : 'Enable Camera'}
+      // </button>
+      // <button onClick={startScreenShare}>
+      //   Share Screen
+      // </button>
+      // <button onClick={leaveRoom}>
+      //   Leave Room
+      // </button>
+      // <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
+      // <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video> 
 
-    </div>
+ 
   );
 }
 
