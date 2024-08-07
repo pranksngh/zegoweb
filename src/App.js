@@ -99,7 +99,7 @@ function App() {
 
         zegoEngine.startPublishingStream(screenStreamID, screenStream);
       } catch (error) {
-        console.error('Error sharing screen:', error);
+        alert('Error sharing screen:', error);
       }
     }
   };
