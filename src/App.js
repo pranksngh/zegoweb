@@ -13,6 +13,10 @@ function App() {
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [localStream, setLocalStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
+  const [isScreenShared, setIsScreenShared] = useState(false);
+  const [isUserListVisible, setIsUserListVisible] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const initZego = async () => {
@@ -124,6 +128,21 @@ function App() {
     }
   };
 
+  const sendMessage = () => {
+    if (zegoEngine && message.trim() !== "") {
+      zegoEngine.sendBroadcastMessage(roomID, message).then(() => {
+        setMessages([...messages, { userID: "prashant_01", userName, message }]);
+        setMessage("");
+      }).catch(error => {
+        console.error("Failed to send message", error);
+      });
+    }
+  };
+
+  const toggleUserList = () => {
+    setIsUserListVisible(!isUserListVisible);
+  };
+
   return (
     
     <div className="App">
@@ -180,7 +199,7 @@ function App() {
       <button className="footer-button" onClick={toggleUserList}>
         <i className="user-icon"></i>
       </button>
-      <button className="leave-button" onClick={leaveRoom}>Leav Room</button>
+      <button className="leave-button" onClick={leaveRoom}>Leav oom</button>
     </div>
   </div>
  
