@@ -180,7 +180,7 @@ function App() {
       <button className="footer-button" onClick={toggleUserList}>
         <i className="user-icon"></i>
       </button>
-      <button className="leave-button" onClick={leaveRoom}>Leave Room</button>
+      <button className="leave-button" onClick={leaveRoom}>Leav Room</button>
     </div>
   </div>
  
