@@ -1,5 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { ZegoExpressEngine } from "zego-express-engine-webrtc";
-import { useEffect, useState } from 'react';
+import './App.css'; // Import the CSS file for styling
 
 function App() {
   const appID = 632416856; // Your App ID
@@ -13,6 +14,7 @@ function App() {
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [localStream, setLocalStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
+  const [isScreenShared, setIsScreenShared] = useState(false); // New state for layout control
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -76,7 +78,7 @@ function App() {
         zegoEngine.destroyEngine();
       }
     };
-  }, []);
+  }, [zegoEngine, screenStream]);
 
   const toggleMute = () => {
     if (localStream) {
@@ -113,6 +115,7 @@ function App() {
           },
         });
         setScreenStream(screenStream);
+        setIsScreenShared(true); // Update layout to screen sharing mode
 
         const screenVideoElement = document.getElementById('screenVideo');
         screenVideoElement.srcObject = screenStream;
@@ -121,6 +124,14 @@ function App() {
       } catch (error) {
         console.error('Error sharing screen:', error);
       }
+    }
+  };
+
+  const stopScreenShare = () => {
+    if (zegoEngine && screenStream) {
+      zegoEngine.stopPublishingStream(screenStreamID);
+      setScreenStream(null);
+      setIsScreenShared(false); // Update layout back to non-sharing mode
     }
   };
 
@@ -148,37 +159,51 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <button onClick={toggleMute}>
-        {isMuted ? 'Unmute' : 'Mute'}
-      </button>
-      <button onClick={toggleCamera}>
-        {isCameraEnabled ? 'Disable Camera' : 'Enable Camera'}
-      </button>
-      <button onClick={startScreenShare}>
-        Share Screen
-      </button>
-      <button onClick={leaveRoom}>
-        Leave Room
-      </button>
-      <div className="chat-container">
-        <div className="messages">
-          {messages.map((msg, index) => (
-            <div key={index} className="message">
-              <strong>{msg.userName}: </strong>{msg.message}
-            </div>
-          ))}
-        </div>
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type a message"
-        />
-        <button onClick={sendMessage}>Send</button>
+    <div className={`App ${isScreenShared ? 'screen-shared' : 'screen-not-shared'}`}>
+      <div className="toolbar">
+        <button onClick={startScreenShare}>
+          {isScreenShared ? 'Stop Sharing' : 'Share Screen'}
+        </button>
+        <button onClick={toggleMute}>
+          {isMuted ? 'Unmute' : 'Mute'}
+        </button>
+        <button onClick={toggleCamera}>
+          {isCameraEnabled ? 'Disable Camera' : 'Enable Camera'}
+        </button>
+        <button onClick={leaveRoom}>Leave Room</button>
       </div>
-      <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
-      <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video>
+
+      <div className="content">
+        <video id="hostVideo" autoPlay muted className="host-video"></video>
+
+        {isScreenShared ? (
+          <div className="screen-share">
+            <video id="screenVideo" autoPlay muted className="screen-video"></video>
+            <div className="chat-container">
+              <div className="messages">
+                {messages.map((msg, index) => (
+                  <div key={index} className="message">
+                    <strong>{msg.userName}: </strong>{msg.message}
+                  </div>
+                ))}
+              </div>
+              <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type a message"
+              />
+              <button onClick={sendMessage}>Send</button>
+            </div>
+          </div>
+        ) : (
+          <div className="participants">
+            <div>User A</div>
+            <div>User B</div>
+            <div>User C</div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
