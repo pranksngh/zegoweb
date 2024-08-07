@@ -1,18 +1,24 @@
-body {
+/* Ensure body and root element fill the entire viewport */
+body, html, #root {
+  height: 100%;
   margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
+  box-sizing: border-box;
 }
 
+/* Container holding the grid layout */
 .container {
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-template-rows: 1fr auto;
-  height: 100vh;
+  grid-template-columns: 3fr 1fr;  /* Main screen and side panel */
+  grid-template-rows: 1fr auto;   /* Main content and controls */
+  height: 100vh;  /* Full viewport height */
   gap: 10px;
   padding: 20px;
   background-color: #f0f0f0;
 }
 
+/* Main screen share area */
 .screen-share {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
@@ -23,30 +29,36 @@ body {
   font-size: 2rem;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
+/* Side panel containing video stream and live chat */
 .side-panel {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 100%;
 }
 
+/* Host video stream section */
 .video-stream {
   background-color: #e0e0e0;
-  flex: 2;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
+/* Live chat section */
 .live-chats {
   background-color: #f7f7f7;
-  flex: 3;
+  flex: 2;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -94,6 +106,7 @@ body {
   background-color: #45a049;
 }
 
+/* Bottom control buttons */
 .controls {
   grid-column: 1 / 3;
   grid-row: 2 / 3;
@@ -101,6 +114,9 @@ body {
   justify-content: center;
   align-items: center;
   gap: 20px;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 10px;
 }
 
 .control-button {
@@ -108,9 +124,18 @@ body {
   font-size: 1.5rem;
   border-radius: 50%;
   border: none;
-  background-color: #333;
+  background-color: #666;
   color: white;
   cursor: pointer;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-button:hover {
+  background-color: #555;
 }
 
 .leave-button {
@@ -124,4 +149,23 @@ body {
 
 .leave-button:hover {
   background-color: #ff1e1e;
+}
+
+/* Ensure the layout is responsive on smaller screens */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr auto;
+  }
+  .side-panel {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    flex-direction: row;
+  }
+
+  .controls {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    justify-content: space-around;
+  }
 }

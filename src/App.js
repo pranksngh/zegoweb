@@ -147,7 +147,7 @@ function App() {
         <button className="control-button">📷</button>
         <button className="control-button">🎥</button>
         <button className="control-button">👤</button>
-        <button className="leave-button">Leave Room</button>
+        <button className="leave-button">Leav Room</button>
       </div>
     </div>
       //  <button onClick={toggleMute}>
