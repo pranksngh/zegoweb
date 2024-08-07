@@ -31,7 +31,7 @@ function App() {
       }
 
       const userID = "prashant_01";
-      const token = "YOUR_TOKEN_HERE"; // Replace with your token
+      const token = "04AAAAAGa1BvcAEG90Mmt4ZGt3b3Rxc2N1cWUAsAmwGF/bLiTtLm6e4/H2AFITSnsFZSg3VzbUu4wJ9n2YmW2F6wnaIm+o3ISNYcMYZ+SPDoovF43KGxT1xkYP9JN1GYfPTeSC9ZFVFqo1UC/18kI2V0q6Mjt8gAdmvaW2w1jM397YSVPVFVAKnowZh2W2m+fH+Edq318hIf8nfqq0J7ovlVurIqhryyl0dbiiMu7JFbKxMIejptFmqyikrf5GkBar2MDPWQMIXbDY4sXl"; // Replace with your token
 
       zg.loginRoom(roomID, token, { userID, userName });
 
@@ -144,9 +144,9 @@ function App() {
       <div className={`main-content ${isScreenShared ? 'screen-shared' : 'screen-not-shared'}`}>
         <div className="left-panel">
           {isScreenShared ? (
-            <div className="screen-video" id="screenVideo">SCREEN SHARED</div>
+            <video className="screen-video" id="screenVideo">SCREEN SHARED</video>
           ) : (
-            <div className="host-video" id="hostVideo">HOST STREAM VIDEO</div>
+            <video className="host-video" id="hostVideo">HOST STREAM VIDEO</video>
           )}
         </div>
 
