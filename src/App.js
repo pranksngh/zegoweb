@@ -126,45 +126,63 @@ function App() {
 
   return (
     
-       <div className="container">
-      <div className="screen-share">SCREEN SHARED</div>
-      <div className="side-panel">
-        <div className="video-stream">HOST VIDEO STREAM</div>
-        <div className="live-chats">
-          <h3>Live Chats</h3>
-          <div className="chat-messages">
-            <p>Prashant Singh : Hi</p>
-            <p>Prashant Singh : Hello</p>
-          </div>
-          <div className="chat-input">
-            <input type="text" placeholder="send message" />
-            <button>Send</button>
-          </div>
-        </div>
+    <div className="App">
+    <div className={`main-content ${isScreenShared ? 'screen-shared' : 'screen-not-shared'}`}>
+      <div className="left-panel">
+        {isScreenShared ? (
+          <div className="screen-video" id="screenVideo">SCREEN SHARED</div>
+        ) : (
+          <div className="host-video" id="hostVideo">HOST STREAM VIDEO</div>
+        )}
       </div>
-      <div className="controls">
-        <button className="control-button">🎤</button>
-        <button className="control-button">📷</button>
-        <button className="control-button">🎥</button>
-        <button className="control-button">👤</button>
-        <button className="leave-button">Leav Room</button>
+
+      <div className="right-panel">
+        <div className="host-video">{isScreenShared ? 'HOST VIDEO STREAM' : 'LIVE CHATS'}</div>
+        {isUserListVisible ? (
+          <div className="user-list">
+            <div className="user">User A</div>
+            <div className="user">User B</div>
+            <div className="user">User C</div>
+          </div>
+        ) : (
+          <div className="chat-section">
+            <div className="messages">
+              {messages.map((msg, index) => (
+                <div key={index} className="message">
+                  <strong>{msg.userName}: </strong>{msg.message}
+                </div>
+              ))}
+            </div>
+            <div className="chat-input">
+              <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="send message"
+              />
+              <button className="send-button" onClick={sendMessage}><i className="send-icon"></i></button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
-      //  <button onClick={toggleMute}>
-      //   {isMuted ? 'Unmute' : 'Mute'}
-      // </button>
-      // <button onClick={toggleCamera}>
-      //   {isCameraEnabled ? 'Disable Camera' : 'Enable Camera'}
-      // </button>
-      // <button onClick={startScreenShare}>
-      //   Share Screen
-      // </button>
-      // <button onClick={leaveRoom}>
-      //   Leave Room
-      // </button>
-      // <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
-      // <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video> 
 
+    <div className="footer">
+      <button className="footer-button" onClick={() => alert('Muted!')}>
+        <i className="mute-icon"></i>
+      </button>
+      <button className="footer-button" onClick={() => alert('Camera Toggled!')}>
+        <i className="camera-icon"></i>
+      </button>
+      <button className="footer-button" onClick={startScreenShare}>
+        <i className={`screen-share-icon ${isScreenShared ? 'stop-share' : 'start-share'}`}></i>
+      </button>
+      <button className="footer-button" onClick={toggleUserList}>
+        <i className="user-icon"></i>
+      </button>
+      <button className="leave-button" onClick={leaveRoom}>Leave Room</button>
+    </div>
+  </div>
  
   );
 }
