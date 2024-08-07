@@ -144,7 +144,7 @@ function App() {
       <div className={`main-content ${isScreenShared ? 'screen-shared' : 'screen-not-shared'}`}>
         <div className="left-panel">
         
-            <video className="screen-video" id="screenVideo">SCREEN SHARED</video>
+            <video className="screen-video" autoPlay muted id="screenVideo"></video>
          
             {/* <video className="host-video" id="hostVideo">HOST STREAM VIDEO</video> */}
           
