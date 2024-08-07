@@ -8,16 +8,13 @@ function App() {
   const userName = "Prashant Singh";
   const roomID = "9000";
   const videostreamID = "90001";
-  const screenStreamID = "90004";
+  const screenStreamID = "90005";
   const [zegoEngine, setZegoEngine] = useState(null);
-  const [isScreenShared, setIsScreenShared] = useState(false);
-  const [isUserListVisible, setIsUserListVisible] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [isScreenShared, setscreenShared] = useState(false);
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [localStream, setLocalStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const initZego = async () => {
@@ -31,7 +28,7 @@ function App() {
       }
 
       const userID = "prashant_01";
-      const token = "04AAAAAGa1BvcAEG90Mmt4ZGt3b3Rxc2N1cWUAsAmwGF/bLiTtLm6e4/H2AFITSnsFZSg3VzbUu4wJ9n2YmW2F6wnaIm+o3ISNYcMYZ+SPDoovF43KGxT1xkYP9JN1GYfPTeSC9ZFVFqo1UC/18kI2V0q6Mjt8gAdmvaW2w1jM397YSVPVFVAKnowZh2W2m+fH+Edq318hIf8nfqq0J7ovlVurIqhryyl0dbiiMu7JFbKxMIejptFmqyikrf5GkBar2MDPWQMIXbDY4sXl"; // Replace with your token
+      const token = "04AAAAAGa06KAAEHdxOHZmcjNmM3Q5dGx2bTIAsK0a4hspDvW5s6Sae6jDqLPqh/UxUmwH7HSglE6bYLUBRsclKtGRgXbN5YoqlV5+CsfdfFcw54an/H2bi98bulxZXTiBqhHPlCCl7ALV7yRlNyiy8IoxMr+1TZ3NaO+W9bPCdhPfi+sosTFsWUFK6439Rs/OLsF+Z/UzylENqwGJhdER5Q7SddzD/NoTZ0duI2STawMVNNpzll3Cr9iBiXYHWeDsNTeMQ+BJYUSYl2lj"; // Replace with your token
 
       zg.loginRoom(roomID, token, { userID, userName });
 
@@ -55,16 +52,6 @@ function App() {
           console.error(`Publishing failed with error code: ${result.errorCode}`);
         }
       });
-
-      // Listen for incoming messages
-      zg.on('IMRecvBroadcastMessage', (roomID, messageList) => {
-        const newMessages = messageList.map(msg => ({
-          userID: msg.fromUser.userID,
-          userName: msg.fromUser.userName,
-          message: msg.message,
-        }));
-        setMessages(prevMessages => [...prevMessages, ...newMessages]);
-      });
     };
 
     initZego();
@@ -79,7 +66,31 @@ function App() {
         zegoEngine.destroyEngine();
       }
     };
-  }, [zegoEngine, screenStream]);
+  }, []);
+
+  const toggleMute = () => {
+    if (localStream) {
+      if (isMuted) {
+        zegoEngine.muteMicrophone(false); // Unmute
+        setIsMuted(false);
+      } else {
+        zegoEngine.muteMicrophone(true); // Mute
+        setIsMuted(true);
+      }
+    }
+  };
+
+  const toggleCamera = () => {
+    if (localStream) {
+      if (isCameraEnabled) {
+        localStream.getVideoTracks()[0].enabled = false; // Disable camera
+        setIsCameraEnabled(false);
+      } else {
+        localStream.getVideoTracks()[0].enabled = true; // Enable camera
+        setIsCameraEnabled(true);
+      }
+    }
+  };
 
   const startScreenShare = async () => {
     if (zegoEngine) {
@@ -92,23 +103,14 @@ function App() {
           },
         });
         setScreenStream(screenStream);
-        setIsScreenShared(true); // Update state for layout transition
 
         const screenVideoElement = document.getElementById('screenVideo');
         screenVideoElement.srcObject = screenStream;
 
         zegoEngine.startPublishingStream(screenStreamID, screenStream);
       } catch (error) {
-        alert('Error sharing screen:', error);
+        console.error('Error sharing screen:', error);
       }
-    }
-  };
-
-  const stopScreenShare = () => {
-    if (zegoEngine && screenStream) {
-      zegoEngine.stopPublishingStream(screenStreamID);
-      setScreenStream(null);
-      setIsScreenShared(false); // Update state for layout transition
     }
   };
 
@@ -122,21 +124,6 @@ function App() {
       zegoEngine.destroyEngine();
       console.log('Left room and stopped publishing');
     }
-  };
-
-  const sendMessage = () => {
-    if (zegoEngine && message.trim() !== "") {
-      zegoEngine.sendBroadcastMessage(roomID, message).then(() => {
-        setMessages([...messages, { userID: "prashant_01", userName, message }]);
-        setMessage("");
-      }).catch(error => {
-        console.error("Failed to send message", error);
-      });
-    }
-  };
-
-  const toggleUserList = () => {
-    setIsUserListVisible(!isUserListVisible);
   };
 
   return (
