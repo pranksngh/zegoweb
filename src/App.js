@@ -126,7 +126,31 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={toggleMute}>
+       <div className="container">
+      <div className="screen-share">SCREEN SHARED</div>
+      <div className="side-panel">
+        <div className="video-stream">HOST VIDEO STREAM</div>
+        <div className="live-chats">
+          <h3>Live Chats</h3>
+          <div className="chat-messages">
+            <p>Prashant Singh : Hi</p>
+            <p>Prashant Singh : Hello</p>
+          </div>
+          <div className="chat-input">
+            <input type="text" placeholder="send message" />
+            <button>Send</button>
+          </div>
+        </div>
+      </div>
+      <div className="controls">
+        <button className="control-button">🎤</button>
+        <button className="control-button">📷</button>
+        <button className="control-button">🎥</button>
+        <button className="control-button">👤</button>
+        <button className="leave-button">Leave Room</button>
+      </div>
+    </div>
+      {/* <button onClick={toggleMute}>
         {isMuted ? 'Unmute' : 'Mute'}
       </button>
       <button onClick={toggleCamera}>
@@ -139,7 +163,8 @@ function App() {
         Leave Room
       </button>
       <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
-      <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video>
+      <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video> */}
+
     </div>
   );
 }
