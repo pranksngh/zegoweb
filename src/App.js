@@ -8,13 +8,16 @@ function App() {
   const userName = "Prashant Singh";
   const roomID = "9000";
   const videostreamID = "90001";
-  const screenStreamID = "90005";
+  const screenStreamID = "90004";
   const [zegoEngine, setZegoEngine] = useState(null);
+  const [isScreenShared, setIsScreenShared] = useState(false);
+  const [isUserListVisible, setIsUserListVisible] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [isScreenShared, setscreenShared] = useState(false);
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [localStream, setLocalStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const initZego = async () => {
@@ -124,6 +127,22 @@ function App() {
       zegoEngine.destroyEngine();
       console.log('Left room and stopped publishing');
     }
+  };
+
+
+  const sendMessage = () => {
+    if (zegoEngine && message.trim() !== "") {
+      zegoEngine.sendBroadcastMessage(roomID, message).then(() => {
+        setMessages([...messages, { userID: "prashant_01", userName, message }]);
+        setMessage("");
+      }).catch(error => {
+        console.error("Failed to send message", error);
+      });
+    }
+  };
+
+  const toggleUserList = () => {
+    setIsUserListVisible(!isUserListVisible);
   };
 
   return (
