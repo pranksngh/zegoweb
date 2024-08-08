@@ -58,14 +58,19 @@ function App() {
 
       // Listen for incoming broadcast messages
       zg.on('IMRecvBroadcastMessage', (roomID, chatData) => {
-       alert("receivied msg" + roomID +  chatData);
-        chatData.forEach(data => {
-          setMessages(prevMessages => [...prevMessages, {
-            userID: data.fromUser.userID,
-            userName: data.fromUser.userName,
-            message: data.message,
-          }]);
-        });
+        console.log("Received message in room:", roomID, chatData);
+        if (chatData && chatData.length > 0) {
+          chatData.forEach(data => {
+            console.log("Message data:", data);
+            setMessages(prevMessages => [...prevMessages, {
+              userID: data.fromUser.userID,
+              userName: data.fromUser.userName,
+              message: data.message,
+            }]);
+          });
+        } else {
+          console.log("No message data received.");
+        }
       });
     };
 
