@@ -50,9 +50,9 @@ function App() {
 
       zg.on('publisherStateUpdate', (result) => {
         if (result.state === 'PUBLISHING') {
-          console.log('Publishing started');
+          alert('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
-          console.error(`Publishing failed with error code: ${result.errorCode}`);
+          alert(`Publishing failed with error code: ${result.errorCode}`);
         }
       });
 
