@@ -123,7 +123,6 @@ function App() {
           },
         });
         setScreenStream(screenStream);
-        setIsScreenShared(true);
 
         const screenVideoElement = document.getElementById('screenVideo');
         screenVideoElement.srcObject = screenStream;
@@ -166,7 +165,7 @@ function App() {
     <div className="App">
       <div className={`main-content ${isScreenShared ? 'screen-shared' : 'screen-not-shared'}`}>
         <div className="left-panel">
-       {isScreenShared ? (<video className="screen-video" autoPlay muted id="screenVideo"></video>):(<div className="screen-video">No screen shared</div>)}   
+          <video className="screen-video" autoPlay muted id="screenVideo"></video>
         </div>
 
         <div className="right-panel">
@@ -175,8 +174,8 @@ function App() {
             <div className="user-list">
               <div className="user">User A</div>
               <div className="user">User B</div>
-              <div className="user">User C</div>uyjhmn+
-
+              <div className="user">User C</div>
+              
             </div>
           ) : (
             <div className="chat-section">
