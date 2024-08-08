@@ -1,5 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { ZegoExpressEngine } from "zego-express-engine-webrtc";
-import { useEffect, useState } from 'react';
+import './App.css'; // Ensure you have your styles defined here
 
 function App() {
   const appID = 632416856; // Your App ID
@@ -9,10 +10,14 @@ function App() {
   const videostreamID = "60001";
   const screenStreamID = "60005";
   const [zegoEngine, setZegoEngine] = useState(null);
+  const [isScreenShared, setIsScreenShared] = useState(false);
+  const [isUserListVisible, setIsUserListVisible] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [localStream, setLocalStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const initZego = async () => {
@@ -48,6 +53,23 @@ function App() {
           alert('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
           alert(`Publishing failed with error code: ${result.errorCode}`);
+        }
+      });
+
+      // Listen for incoming broadcast messages
+      zg.on('IMRecvBroadcastMessage', (roomID, chatData) => {
+        console.log("Received message in room:", roomID, chatData);
+        if (chatData && chatData.length > 0) {
+          chatData.forEach(data => {
+            console.log("Message data:", data);
+            setMessages(prevMessages => [...prevMessages, {
+              userID: data.fromUser.userID,
+              userName: data.fromUser.userName,
+              message: data.message,
+            }]);
+          });
+        } else {
+          console.log("No message data received.");
         }
       });
     };
@@ -99,6 +121,7 @@ function App() {
             quality: 4,
             frameRate: 15,
           },
+          
         });
         setScreenStream(screenStream);
 
@@ -107,7 +130,7 @@ function App() {
 
         zegoEngine.startPublishingStream(screenStreamID, screenStream);
       } catch (error) {
-        alert('Error sharing screen:', error);
+        console.error('Error sharing screen:', error);
       }
     }
   };
@@ -124,22 +147,75 @@ function App() {
     }
   };
 
+  const sendMessage = () => {
+    if (zegoEngine && message.trim() !== "") {
+      zegoEngine.sendBroadcastMessage(roomID, message).then(() => {
+        setMessages([...messages, { userID: "prashant_01", userName, message }]);
+        setMessage("");
+      }).catch(error => {
+        console.error("Failed to send message", error);
+      });
+    }
+  };
+
+  const toggleUserList = () => {
+    setIsUserListVisible(!isUserListVisible);
+  };
+
   return (
     <div className="App">
-      <button onClick={toggleMute}>
-        {isMuted ? 'Unmute' : 'Mute'}
-      </button>
-      <button onClick={toggleCamera}>
-        {isCameraEnabled ? 'Disable Camera' : 'Enable Camera'}
-      </button>
-      <button onClick={startScreenShare}>
-        Share Screen
-      </button>
-      <button onClick={leaveRoom}>
-        Leave Room
-      </button>
-      <video id="hostVideo" autoPlay muted style={{ display: 'block' }}></video>
-      <video id="screenVideo" autoPlay muted style={{ display: 'block', marginTop: '10px' }}></video>
+      <div className={`main-content ${isScreenShared ? 'screen-shared' : 'screen-not-shared'}`}>
+        <div className="left-panel">
+          <video className="screen-video" autoPlay muted id="screenVideo"></video>
+        </div>
+
+        <div className="right-panel">
+          <video className="host-video" autoPlay muted id="hostVideo"></video>
+          {isUserListVisible ? (
+            <div className="user-list">
+              <div className="user">User A</div>
+              <div className="user">User B</div>
+              <div className="user">User C</div>
+              
+            </div>
+          ) : (
+            <div className="chat-section">
+              <div className="messages">
+                {messages.map((msg, index) => (
+                  <div key={index} className="message">
+                    <strong>{msg.userName}: </strong>{msg.message}
+                  </div>
+                ))}
+              </div>
+              <div className="chat-input">
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="send message"
+                />
+                <button className="send-button" onClick={sendMessage}><i className="send-icon"></i></button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="footer">
+        <button className="footer-button" onClick={toggleMute}>
+          <i className="mute-icon"></i>
+        </button>
+        <button className="footer-button" onClick={toggleCamera}>
+          <i className="camera-icon"></i>
+        </button>
+        <button className="footer-button" onClick={startScreenShare}>
+          <i className={`screen-share-icon ${isScreenShared ? 'stop-share' : 'start-share'}`}></i>
+        </button>
+        <button className="footer-button" onClick={toggleUserList}>
+          <i className="user-icon"></i>
+        </button>
+        <button className="leave-button" onClick={leaveRoom}>Leave Room</button>
+      </div>
     </div>
   );
 }
