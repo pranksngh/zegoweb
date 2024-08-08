@@ -71,9 +71,14 @@ body {
   border-radius: 10px;
   font-size: 24px;
   transition: all 0.3s ease-in-out;
+  margin-bottom: 15px;
 }
 
-.chat-section,
+.chat-section{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .user-list {
   flex: 2;
   background-color: #444;
@@ -91,18 +96,32 @@ body {
 
 .messages {
   flex: 1;
-  padding: 10px;
   overflow-y: auto;
+  padding-right: 15px; /* Space for scrollbar */
 }
 
 .message {
   margin-bottom: 10px;
   font-size: 16px;
+  line-height: 1.5; /* Improved line height */
+  padding: 8px;
+  border-radius: 5px;
+  background-color: #555; /* Background for each message */
+}
+.message:hover {
+  background-color: #666; /* Slightly lighter background on hover */
+}
+.send-button:hover {
+  background-color: #0056b3;
 }
 
 .chat-input {
-  display: flex;
-  align-items: center;
+  position: sticky;
+  bottom: 0;
+  background-color: #333;
+  padding: 10px;
+  border-top: 1px solid #444;
+  border-radius: 0 0 10px 10px;
 }
 
 input[type="text"] {
