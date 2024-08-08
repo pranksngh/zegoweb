@@ -5,9 +5,9 @@ function App() {
   const appID = 632416856; // Your App ID
   const serverSecret = "e7c4627c6fdb1a356ea1cb1e45a60c6b"; // Your Server Secret
   const userName = "Prashant Singh";
-  const roomID = "9000";
-  const videostreamID = "90001";
-  const screenStreamID = "90005";
+  const roomID = "6000";
+  const videostreamID = "60001";
+  const screenStreamID = "60005";
   const [zegoEngine, setZegoEngine] = useState(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
@@ -45,9 +45,9 @@ function App() {
 
       zg.on('publisherStateUpdate', (result) => {
         if (result.state === 'PUBLISHING') {
-          console.log('Publishing started');
+          alert('Publishing started');
         } else if (result.state === 'NO_PUBLISH') {
-          console.error(`Publishing failed with error code: ${result.errorCode}`);
+          alert(`Publishing failed with error code: ${result.errorCode}`);
         }
       });
     };
@@ -107,7 +107,7 @@ function App() {
 
         zegoEngine.startPublishingStream(screenStreamID, screenStream);
       } catch (error) {
-        console.error('Error sharing screen:', error);
+        alert('Error sharing screen:', error);
       }
     }
   };
