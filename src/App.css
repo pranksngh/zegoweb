@@ -118,6 +118,8 @@ body {
 }
 
 .chat-input {
+  display: flex; /* Ensure flexbox is used for alignment */
+  align-items: center; /* Center items vertically */
   position: sticky;
   bottom: 0;
   background-color: #333;
@@ -128,12 +130,13 @@ body {
 
 input[type="text"] {
   padding: 10px;
-  flex: 1;
+  flex: 1; /* Allow the input to take up remaining space */
   margin-right: 10px;
   border-radius: 5px;
   border: none;
   background-color: #333;
   color: white;
+  width: 100%; /* Ensure the input takes the full width */
 }
 
 .send-button {
@@ -143,6 +146,7 @@ input[type="text"] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  flex-shrink: 0; /* Prevent the button from shrinking */
 }
 
 .send-button .send-icon::before {
