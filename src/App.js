@@ -58,6 +58,7 @@ function App() {
 
       // Listen for incoming broadcast messages
       zg.on('IMRecvBroadcastMessage', (roomID, chatData) => {
+        console.log("receivied msg" + roomID +  chatData);
         chatData.forEach(data => {
           setMessages(prevMessages => [...prevMessages, {
             userID: data.fromUser.userID,
