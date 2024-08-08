@@ -55,6 +55,17 @@ function App() {
           console.error(`Publishing failed with error code: ${result.errorCode}`);
         }
       });
+
+      // Listen for incoming broadcast messages
+      zg.on('IMRecvBroadcastMessage', (roomID, chatData) => {
+        chatData.forEach(data => {
+          setMessages(prevMessages => [...prevMessages, {
+            userID: data.fromUser.userID,
+            userName: data.fromUser.userName,
+            message: data.message,
+          }]);
+        });
+      });
     };
 
     initZego();
@@ -129,7 +140,6 @@ function App() {
     }
   };
 
-
   const sendMessage = () => {
     if (zegoEngine && message.trim() !== "") {
       zegoEngine.sendBroadcastMessage(roomID, message).then(() => {
@@ -149,11 +159,7 @@ function App() {
     <div className="App">
       <div className={`main-content ${isScreenShared ? 'screen-shared' : 'screen-not-shared'}`}>
         <div className="left-panel">
-        
-            <video className="screen-video" autoPlay muted id="screenVideo"></video>
-         
-            {/* <video className="host-video" id="hostVideo">HOST STREAM VIDEO</video> */}
-          
+          <video className="screen-video" autoPlay muted id="screenVideo"></video>
         </div>
 
         <div className="right-panel">
@@ -188,10 +194,10 @@ function App() {
       </div>
 
       <div className="footer">
-        <button className="footer-button" onClick={() => alert('Muted!')}>
+        <button className="footer-button" onClick={toggleMute}>
           <i className="mute-icon"></i>
         </button>
-        <button className="footer-button" onClick={() => alert('Camera Toggled!')}>
+        <button className="footer-button" onClick={toggleCamera}>
           <i className="camera-icon"></i>
         </button>
         <button className="footer-button" onClick={startScreenShare}>
