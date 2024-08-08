@@ -165,16 +165,17 @@ function App() {
     <div className="App">
       <div className={`main-content ${isScreenShared ? 'screen-shared' : 'screen-not-shared'}`}>
         <div className="left-panel">
-          <video className="screen-video" autoPlay muted id="screenVideo"></video>
+       {isScreenShared ? (<video className="screen-video" autoPlay muted id="screenVideo"></video>):(<div className="screen-video">No screen shared</div>)}   
         </div>
 
         <div className="right-panel">
-          <div className="host-video">{isScreenShared ? 'HOST VIDEO STREAM' : 'LIVE CHATS'}</div>
+          <video className="host-video" autoPlay muted id="hostVideo"></video>
           {isUserListVisible ? (
             <div className="user-list">
               <div className="user">User A</div>
               <div className="user">User B</div>
-              <div className="user">User C</div>
+              <div className="user">User C</div>uyjhmn+
+
             </div>
           ) : (
             <div className="chat-section">
