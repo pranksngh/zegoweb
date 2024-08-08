@@ -6,9 +6,9 @@ function App() {
   const appID = 632416856; // Your App ID
   const serverSecret = "e7c4627c6fdb1a356ea1cb1e45a60c6b"; // Your Server Secret
   const userName = "Prashant Singh";
-  const roomID = "9000";
-  const videostreamID = "90001";
-  const screenStreamID = "90004";
+  const roomID = "9005";
+  const videostreamID = "90003";
+  const screenStreamID = "90006";
   const [zegoEngine, setZegoEngine] = useState(null);
   const [isScreenShared, setIsScreenShared] = useState(false);
   const [isUserListVisible, setIsUserListVisible] = useState(false);
@@ -121,6 +121,7 @@ function App() {
             quality: 4,
             frameRate: 15,
           },
+          
         });
         setScreenStream(screenStream);
 
