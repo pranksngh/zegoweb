@@ -123,6 +123,7 @@ function App() {
           },
         });
         setScreenStream(screenStream);
+        setIsScreenShared(true);
 
         const screenVideoElement = document.getElementById('screenVideo');
         screenVideoElement.srcObject = screenStream;
