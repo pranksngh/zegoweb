@@ -78,7 +78,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 80%;
-  margin-top: 50px;
+  margin-top: 15px;
   border-radius: 10px;
   background-color: #555;
 }
