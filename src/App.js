@@ -31,7 +31,7 @@ function App() {
       }
 
       const userID = "prashant_01";
-      const token = "04AAAAAGa5rMYAEDJ0ZXhyNTdnZXhsNGt4dmUAsAjOcMF278t1YKmIJYvB1RhOQrK1EYmeqq7n9seAN4KEvNCzpln6QxUj7akWGWiGri8hRz/eAJxysR5IiSBgocph3oit3pBZ6kP1fVGR01nyR7ZgjOPMLrqyg2lkfXPm2cXR15+pCJuJfg4iaonWvaMBkJnMIyGQmCM+H4+kRQGpfpNn/hsbjz7EZYdpj9YBHA54MqQMprGc60IK0e4xU9WE56ShyOFnmBTGPT//PMtN"; // Replace with your token
+      const token = "04AAAAAGbGOHcAEGo0NTN5dnhya3QwYWdranEAsIhqP2AHi7/P5bxv5Hw8BLZJyqFF8kDwS1UMpy1ialqnn2MvLSMaZ9NxyxRsXtqKBVqRyavKKQ6iVENkk1B8sKiV+MlCN2N07Nt58xFGdFLW56k4/SPU4IJKTtqthCAJiH8/0MMGLp7LIZO/sQdAC7aKtWQgnhdRXDG+aMkpaobdHOcx4XqSiRxjIa7ru/zrvgs1EXJNSl+e6CmlTwcFR8W77NA5IFxuZ0A3fzOyjxJX"; // Replace with your token
 
       zg.loginRoom(roomID, token, { userID, userName });
 
