@@ -3,8 +3,8 @@ import { ZegoExpressEngine } from "zego-express-engine-webrtc";
 import './App.css'; // Ensure you have your styles defined here
 
 function App() {
-  const appID = 2046226907; // Your App ID
-  const serverSecret = "0f6f212595972b7250a3d0032874e2d4"; // Your Server Secret
+  const appID = 122772402; // Your App ID
+  const serverSecret = "88c5f0591422f26b8bff03937659368b"; // Your Server Secret
   const userName = "Prashant Singh";
   const roomID = "6000";
   const videostreamID = "60001";
@@ -31,7 +31,7 @@ function App() {
       }
 
       const userID = "1";
-      const token = "04AAAAAGbHbx0AEDVkcGZ3c3g2ZGFoNmxheWkAcGv2ziNLwiOiSRCht3Am+FlpDPPlFAIuSUo21Hpt9Cd3tJRcF+Ygw42sJaIjs915uAl8sO/0hYhWTHbQSA8BqQJbx1zZMTBA0/ltmg0m7rt2Qs+5DbqxcjKPaSokoXnWNaAl/8oqlurfYmMcNHqyFw4="; // Replace with your token
+      const token = "04AAAAAGbIBAsAEGVjdGt6bnBtZHZudGVucWsAsCD3XeeuKWsAYG/2c0Yio3wfyYSmkZ2fnmj0iTKHbMIGIqLxxuZ5DMojuc2So/hLB4hXaXYc/zUP8aZ3pczMuRVwnpugYDeETyVcOFxxOmLGZaasxYuywBEKRUxCGOWghHtNLHOsM+PTQZUzdkyL6pPlVnE96m+zrwINDmn3Qb/I59rDbhgHWUvE7U0AhBs69ee/NJ78JYkS4a2ZrmK4AYbpoBp5uqqVITV5p0rrF8gu"; // Replace with your token
 
       zg.loginRoom(roomID, token, { userID, userName });
 
